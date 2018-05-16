@@ -11,6 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity {
     private static final String BASE_URL ="https://api.github.com/users";
@@ -24,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("Code:",response);
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                User[] users= gson.fromJson(response,User[].class);
+
             }
         }, new Response.ErrorListener() {
             @Override
