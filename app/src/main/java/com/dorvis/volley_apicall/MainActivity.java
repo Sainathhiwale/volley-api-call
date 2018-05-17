@@ -3,6 +3,8 @@ package com.dorvis.volley_apicall;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -21,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         StringRequest request = new StringRequest(BASE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
                 User[] users= gson.fromJson(response,User[].class);
+
+                recyclerView.setAdapter(new GitHubAdapter(MainActivity.this,users));
 
             }
         }, new Response.ErrorListener() {
